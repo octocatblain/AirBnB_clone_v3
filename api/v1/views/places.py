@@ -12,7 +12,7 @@ from models.user import User
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
-def fetch_places():
+def fetch_places(city_id):
     """Fetch all places from the store"""
     places = storage.all(Place).values()
     return jsonify([place.to_dict() for place in places])
@@ -20,7 +20,7 @@ def fetch_places():
 
 @app_views.route('/places/<place_id>', methods=['GET'],
                  strict_slashes=False)
-def fetch_place_by_id(place_id: int):
+def fetch_place_by_id(place_id):
     """Fetch a single place by it's ID"""
     place = storage.get(Place, place_id)
     if not place:
@@ -31,7 +31,7 @@ def fetch_place_by_id(place_id: int):
 
 @app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_place_by_id(place_id: int):
+def delete_place_by_id(place_id):
     """Delete an place by it's ID"""
     place = storage.get(Place, place_id)
     if not place:
@@ -43,9 +43,9 @@ def delete_place_by_id(place_id: int):
 
 
 @app_views.route('/cities/<city_id>/places', methods=['POST'])
-def create_place(city_id: int):
+def create_place(city_id):
     """Create a new place"""
-    city = storage.get(City, id)
+    city = storage.get(City, city_id)
 
     if not city:
         abort(404)
